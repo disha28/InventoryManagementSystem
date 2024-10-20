@@ -1,8 +1,6 @@
 package IMS.com.InventoryManagementSystem.Service;
 
-import IMS.com.InventoryManagementSystem.Exception.DuplicateItemException;
-import IMS.com.InventoryManagementSystem.Exception.ItemNotFoundException;
-import IMS.com.InventoryManagementSystem.Exception.ShelfCapacityExceededException;
+import IMS.com.InventoryManagementSystem.Exception.*;
 import IMS.com.InventoryManagementSystem.Model.Item;
 import IMS.com.InventoryManagementSystem.Repository.ItemRepository;
 import IMS.com.InventoryManagementSystem.Response.ItemResponseDTO;
@@ -76,7 +74,19 @@ public class ItemService {
         if (itemRepository.existsById(item.getId())) {
             throw new DuplicateItemException("Item with ID: " + item.getId() + " already exists.");
         }
-        itemRepository.save(item);
+        // Validate item input
+        if (item.getQuantity() < 0) {
+            throw new InvalidInputException("Quantity cannot be negative.");
+        }
+        try {
+            if (item.getProduct() == null) {
+                throw new BadRequestException("Product information is required.");
+            }
+            itemRepository.save(item);
+        } catch (Exception e) {
+            throw new DatabaseException("Failed to save item to the database.");
+        }
+
     }
 
     public Integer getShelfCapacityForItem(Integer itemId) {

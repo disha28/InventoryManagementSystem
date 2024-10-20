@@ -1,10 +1,10 @@
 package IMS.com.InventoryManagementSystem.Model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
-
-
 
 @Entity
 @Getter
@@ -15,22 +15,30 @@ public class Item {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @NotNull(message = "Product cannot be null")
     @ManyToOne
     @JoinColumn(name = "product_id", nullable = false)
     private Product product;
 
+    @NotNull(message = "Quantity cannot be null")
+    @Min(value = 1, message = "Quantity must be greater than zero")
     private Integer quantity;
 
+    @NotNull(message = "Category cannot be null")
     @ManyToOne
     @JoinColumn(name = "category_id", nullable = false)
     private Category category;
 
+    @NotNull(message = "Price per unit cannot be null")
+    @Min(value = 1, message = "Price per unit must be greater than zero")
     private Integer pricePerUnit;
 
+    @NotNull(message = "Shelf cannot be null")
     @ManyToOne
     @JoinColumn(name = "shelf_id", nullable = false)
     private Shelf shelf;
 
+    @NotNull(message = "Vendor cannot be null")
     @ManyToOne
     @JoinColumn(name = "vendor_id", nullable = false)
     private Vendor vendor;
@@ -46,5 +54,4 @@ public class Item {
         this.shelf = shelf;
         this.vendor = vendor;
     }
-
 }
