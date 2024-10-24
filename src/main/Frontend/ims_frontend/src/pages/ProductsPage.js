@@ -1,11 +1,10 @@
 import React from 'react';
-import InventoryTable from '../components/InventoryTable';
-
+import ProductForm from '../components/ProductForm';
 const ProductsPage = () => {
     return (
         <div>
             <h2>Manage Products</h2>
-            <InventoryTable />
+            <ProductForm />
         </div>
     );
 };

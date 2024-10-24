@@ -5,8 +5,12 @@ import ProductsPage from './pages/ProductsPage';
 import ShelvesPage from './pages/ShelvesPage';
 import VendorsPage from './pages/VendorsPage';
 import CategoriesPage from './pages/CategoriesPage';
+import InventoryPage from './pages/InventoryPage';
+import { Provider } from 'react-redux';
+import store from './redux/store';
 
 const { Header, Content } = Layout;
+
 
 const App = () => {
     return (
@@ -25,8 +29,9 @@ const App = () => {
                     <Route path="/products" element={<ProductsPage />} />
                     <Route path="/shelves" element={<ShelvesPage />} />
                     <Route path="/vendors" element={<VendorsPage />} />
+
                     <Route path="/categories" element={<CategoriesPage />} />
-                    <Route path="/" element={<ProductsPage />} />
+                    <Route path="/" element={<InventoryPage />} />
                 </Routes>
             </Content>
         </Layout>

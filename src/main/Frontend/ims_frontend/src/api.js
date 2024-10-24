@@ -1,7 +1,46 @@
+const API_ENDPOINT_ITEMS = 'http://localhost:8080/items'; // Your items endpoint
 const API_ENDPOINT_PRODUCTS = 'http://localhost:8080/products';
 const API_ENDPOINT_SHELVES = 'http://localhost:8080/shelves';
 const API_ENDPOINT_VENDORS = 'http://localhost:8080/vendors';
 const API_ENDPOINT_CATEGORIES = 'http://localhost:8080/categories';
+
+// Items API
+export const fetchItems = async () => {
+    const response = await fetch(API_ENDPOINT_ITEMS);
+    if (!response.ok) throw new Error('Failed to fetch items');
+    return await response.json();
+};
+
+export const addItem = async (item) => {
+    const response = await fetch(API_ENDPOINT_ITEMS, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(item),
+    });
+    if (!response.ok) throw new Error('Failed to add item');
+    return await response.json();
+};
+
+export const updateItem = async (item) => {
+    const response = await fetch(`${API_ENDPOINT_ITEMS}/${item.id}`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(item),
+    });
+    if (!response.ok) throw new Error('Failed to update item');
+    return await response.json();
+};
+
+export const deleteItem = async (id) => {
+    const response = await fetch(`${API_ENDPOINT_ITEMS}/${id}`, {
+        method: 'DELETE',
+    });
+    if (!response.ok) throw new Error('Failed to delete item');
+};
 
 // Products API
 export const fetchProducts = async () => {
