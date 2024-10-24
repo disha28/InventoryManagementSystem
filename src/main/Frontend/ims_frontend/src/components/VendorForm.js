@@ -1,11 +1,12 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Form, Input, Button, message } from 'antd';
 import { useDispatch } from 'react-redux';
 import { addVendor, updateVendor } from '../redux/actions';
 
-const VendorForm = ({ editingVendor, setEditingVendor }) => {
+const VendorForm = () => {
     const [form] = Form.useForm();
     const dispatch = useDispatch();
+    const [ editingVendor, setEditingVendor ] = useState(null);
 
     useEffect(() => {
         if (editingVendor) {

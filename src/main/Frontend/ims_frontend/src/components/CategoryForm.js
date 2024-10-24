@@ -1,11 +1,12 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Form, Input, Button, message } from 'antd';
 import { useDispatch } from 'react-redux';
 import { addCategory, updateCategory } from '../redux/actions';
 
-const CategoryForm = ({ editingCategory, setEditingCategory }) => {
+const CategoryForm = () => {
     const [form] = Form.useForm();
     const dispatch = useDispatch();
+    const [ editingCategory, setEditingCategory ] = useState(null);
 
     useEffect(() => {
         if (editingCategory) {

@@ -1,11 +1,12 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Form, Input, Button, message } from 'antd';
 import { useDispatch } from 'react-redux';
 import { addShelf, updateShelf } from '../redux/actions';
 
-const ShelfForm = ({ editingShelf, setEditingShelf }) => {
+const ShelfForm = ( ) => {
     const [form] = Form.useForm();
     const dispatch = useDispatch();
+    const [ editingShelf, setEditingShelf ] = useState(null);
 
     useEffect(() => {
         if (editingShelf) {
