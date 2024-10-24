@@ -1,80 +1,67 @@
-import React, { useState, useEffect } from 'react';
-import { Table, Button, Space, message } from 'antd';
-import { fetchItems, deleteItem } from '../api'; // Import the API functions
+import React, { useEffect, useState } from 'react';
+import { Table, Input, Button, Popconfirm, message } from 'antd';
+import { fetchProducts, deleteProduct } from '../api'; // Ensure to import the correct API functions
+import ProductForm from './ProductForm';
 
-function InventoryTable() {
-  const [items, setItems] = useState([]);
-  const [loading, setLoading] = useState(false);
+const InventoryTable = () => {
+    const [products, setProducts] = useState([]);
+    const [searchText, setSearchText] = useState('');
+    const [editingProduct, setEditingProduct] = useState(null);
 
-  // Fetch items when the component mounts
-  useEffect(() => {
-    loadItems();
-  }, []);
+    useEffect(() => {
+        const loadProducts = async () => {
+            try {
+                const data = await fetchProducts();
+                setProducts(data);
+            } catch (error) {
+                message.error(error.message);
+            }
+        };
+        loadProducts();
+    }, []);
 
-  const loadItems = async () => {
-    setLoading(true);
-    try {
-      const data = await fetchItems();
-      setItems(data);
-    } catch (error) {
-      message.error('Failed to fetch items');
-    } finally {
-      setLoading(false);
-    }
-  };
+    const handleDelete = async (id) => {
+        try {
+            await deleteProduct(id);
+            setProducts(products.filter(product => product.id !== id));
+            message.success('Product deleted successfully');
+        } catch (error) {
+            message.error(error.message);
+        }
+    };
 
-  // Delete an item
-  const handleDelete = async (id) => {
-    try {
-      await deleteItem(id);
-      message.success('Item deleted successfully');
-      loadItems(); // Reload the items after deletion
-    } catch (error) {
-      message.error('Failed to delete item');
-    }
-  };
+    const handleEdit = (product) => {
+        setEditingProduct(product);
+    };
 
-  const columns = [
-    {
-      title: 'Product Name',
-      dataIndex: ['product', 'name'],
-      key: 'name',
-    },
-    {
-      title: 'Quantity',
-      dataIndex: 'quantity',
-      key: 'quantity',
-    },
-    {
-      title: 'Category',
-      dataIndex: ['category', 'name'],
-      key: 'category',
-    },
-    {
-      title: 'Price per Unit',
-      dataIndex: 'pricePerUnit',
-      key: 'pricePerUnit',
-      render: (price) => `$${price.toFixed(2)}`,
-    },
-    {
-      title: 'Actions',
-      key: 'actions',
-      render: (_, record) => (
-        <Space size="middle">
-          <Button onClick={() => handleDelete(record.id)} danger>Delete</Button>
-        </Space>
-      ),
-    },
-  ];
+    const handleSearch = (value) => {
+        setSearchText(value);
+    };
 
-  return (
-    <Table
-      columns={columns}
-      dataSource={items}
-      rowKey="id"
-      loading={loading}
-    />
-  );
-}
+    const filteredProducts = products.filter(product =>
+        product.name.toLowerCase().includes(searchText.toLowerCase())
+    );
+
+    const columns = [
+        // Define your columns here as previously discussed
+    ];
+
+    return (
+        <div>
+            <Input.Search
+                placeholder="Search products"
+                onSearch={handleSearch}
+                style={{ marginBottom: 16 }}
+            />
+            <Table
+                columns={columns}
+                dataSource={filteredProducts}
+                rowKey="id"
+                pagination={{ pageSize: 10 }}
+            />
+            <ProductForm editingProduct={editingProduct} setEditingProduct={setEditingProduct} />
+        </div>
+    );
+};
 
 export default InventoryTable;

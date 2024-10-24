@@ -23,6 +23,7 @@ public class ItemService {
             Integer maxPrice) {
         List<Item> items = itemRepository.findAllWithFilters(categoryName, vendorName, minPrice, maxPrice);
         return items.stream().map(item -> new ItemResponseDTO(
+                item.getId(),
                 item.getProduct().getName(),
                 item.getQuantity(),
                 item.getCategory().getName(),

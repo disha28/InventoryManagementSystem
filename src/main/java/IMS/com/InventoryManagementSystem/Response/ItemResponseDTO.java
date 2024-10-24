@@ -19,7 +19,8 @@ public class ItemResponseDTO {
     private String vendorLink;
 
     // Constructor for custom initialization
-    public ItemResponseDTO(String productName, Integer quantity, String category, Integer pricePerUnit, Integer shelfNumber, String vendorLink) {
+    public ItemResponseDTO(Integer id, String productName, Integer quantity, String category, Integer pricePerUnit, Integer shelfNumber, String vendorLink) {
+        this.id = id;
         this.productName = productName;
         this.quantity = quantity;
         this.category = category;
@@ -30,12 +31,12 @@ public class ItemResponseDTO {
 
     // Constructor to convert Item entity into ItemResponseDTO
     public ItemResponseDTO(Item item) {
-        this.id = item.getId();  // Assigning the id from Item entity
-        this.productName = item.getProduct().getName();  // Assuming getProduct() returns an entity with a getName() method
+        this.id = item.getId();
+        this.productName = item.getProduct().getName();
         this.quantity = item.getQuantity();
-        this.category = item.getCategory().getName();  // Assuming Category entity has a getName() method
+        this.category = item.getCategory().getName();
         this.pricePerUnit = item.getPricePerUnit();
-        this.shelfNumber = item.getShelf().getId();  // Assuming Shelf entity has an id field
-        this.vendorLink = item.getVendor().getLink();  // Assuming Vendor entity has a link field
+        this.shelfNumber = item.getShelf().getId();
+        this.vendorLink = item.getVendor().getLink();
     }
 }

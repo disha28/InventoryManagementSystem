@@ -27,14 +27,12 @@ public class ProductController {
         return product != null ? ResponseEntity.ok(product) : ResponseEntity.notFound().build();
     }
 
-    // Add @Valid to enforce validation on new products
     @PostMapping
     public ResponseEntity<Void> addProduct(@Valid @RequestBody Product product) {
         productService.addProduct(product);
         return ResponseEntity.ok().build();  // Return 200 OK on successful creation
     }
 
-    // Add @Valid to enforce validation when updating products
     @PutMapping("/{id}")
     public ResponseEntity<Void> updateProduct(@PathVariable int id, @Valid @RequestBody Product product) {
         productService.updateProduct(id, product);

@@ -27,14 +27,12 @@ public class ShelfController {
         return shelf != null ? ResponseEntity.ok(shelf) : ResponseEntity.notFound().build();
     }
 
-    // Add @Valid to enforce validation when creating new shelves
     @PostMapping
     public ResponseEntity<Void> addShelf(@Valid @RequestBody Shelf shelf) {
         shelfService.addShelf(shelf);
         return ResponseEntity.ok().build(); // Return 200 OK on success
     }
 
-    // Add @Valid to enforce validation when updating shelves
     @PutMapping("/{id}")
     public ResponseEntity<Void> updateShelf(@PathVariable int id, @Valid @RequestBody Shelf shelf) {
         shelfService.updateShelf(id, shelf);

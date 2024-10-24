@@ -20,9 +20,6 @@ public class Shelf {
     private Integer id;
 
     @NotNull(message = "Shelf capacity cannot be null")
-    @Min(value = 1, message = "Shelf capacity must be greater than 0")
+    @Min(value = 0, message = "Shelf capacity must be greater than equal to 0")
     private Integer capacity;
-
-    public Shelf(int i, int i1) {
-    }
 }

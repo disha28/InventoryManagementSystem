@@ -27,23 +27,21 @@ public class VendorController {
         return vendor != null ? ResponseEntity.ok(vendor) : ResponseEntity.notFound().build();
     }
 
-    // Add @Valid to validate the incoming Vendor object
     @PostMapping
     public ResponseEntity<Void> addVendor(@Valid @RequestBody Vendor vendor) {
         vendorService.addVendor(vendor);
-        return ResponseEntity.ok().build(); // Return 200 OK on successful creation
+        return ResponseEntity.ok().build();
     }
 
-    // Add @Valid to validate the Vendor object during updates
     @PutMapping("/{id}")
     public ResponseEntity<Void> updateVendor(@PathVariable int id, @Valid @RequestBody Vendor vendor) {
         vendorService.updateVendor(id, vendor);
-        return ResponseEntity.ok().build(); // Return 200 OK on successful update
+        return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteVendor(@PathVariable int id) {
         vendorService.deleteVendor(id);
-        return ResponseEntity.noContent().build(); // Return 204 No Content on successful deletion
+        return ResponseEntity.noContent().build();
     }
 }

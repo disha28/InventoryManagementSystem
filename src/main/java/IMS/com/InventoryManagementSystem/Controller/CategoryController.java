@@ -27,23 +27,21 @@ public class CategoryController {
         return category != null ? ResponseEntity.ok(category) : ResponseEntity.notFound().build();
     }
 
-    // Add @Valid to trigger validation for new categories
     @PostMapping
     public ResponseEntity<Void> addCategory(@Valid @RequestBody Category category) {
         categoryService.addCategory(category);
-        return ResponseEntity.ok().build(); // Return 200 OK on successful creation
+        return ResponseEntity.ok().build();
     }
 
-    // Add @Valid to trigger validation when updating categories
     @PutMapping("/{id}")
     public ResponseEntity<Void> updateCategory(@PathVariable int id, @Valid @RequestBody Category category) {
         categoryService.updateCategory(id, category);
-        return ResponseEntity.ok().build(); // Return 200 OK on successful update
+        return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteCategory(@PathVariable int id) {
         categoryService.deleteCategory(id);
-        return ResponseEntity.noContent().build(); // Return 204 No Content on successful deletion
+        return ResponseEntity.noContent().build();
     }
 }
