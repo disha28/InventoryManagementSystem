@@ -22,23 +22,32 @@ const InventoryTable = () => {
     }, []);
 
     const handleDelete = async (id) => {
-        // ... (unchanged)
+        try {
+            await deleteItem(id);
+            setItems(items.filter(item => item.id !== id));
+            message.success('Item deleted successfully');
+        } catch (error) {
+            message.error(error.message);
+        }
     };
 
     const handleEdit = (item) => {
-        // ... (unchanged)
+        setEditingItem(item);
     };
 
     const handleSearch = (value) => {
-        // ... (unchanged)
+        setSearchText(value);
     };
 
     const handleChange = (pagination, filters, sorter) => {
         setSortedInfo(sorter);
     };
 
+    // Enhanced filtering logic to safely check for undefined values
     const filteredItems = items.filter(item =>
-        item.productName.toLowerCase().includes(searchText.toLowerCase())
+        item.productName.toLowerCase().includes(searchText.toLowerCase()) ||
+        (item.category && item.category.toLowerCase().includes(searchText.toLowerCase())) ||  // Safe check for category
+        (item.vendorName && item.vendorName.toLowerCase().includes(searchText.toLowerCase()))   // Safe check for vendor name
     );
 
     const columns = [
@@ -86,28 +95,28 @@ const InventoryTable = () => {
             render: (text) => <a href={text} target="_blank" rel="noopener noreferrer">Link</a>,
         },
         {
-                    title: 'Actions',
-                    key: 'actions',
-                    render: (text, item) => (
-                        <span>
-                            <Button onClick={() => handleEdit(item)}>Edit</Button>
-                            <Popconfirm
-                                title="Are you sure to delete this product?"
-                                onConfirm={() => handleDelete(item.id)}
-                                okText="Yes"
-                                cancelText="No"
-                            >
-                                <Button type="danger" style={{ marginLeft: 8 }}>Delete</Button>
-                            </Popconfirm>
-                        </span>
-                    ),
-                },
+            title: 'Actions',
+            key: 'actions',
+            render: (text, item) => (
+                <span>
+                    <Button onClick={() => handleEdit(item)}>Edit</Button>
+                    <Popconfirm
+                        title="Are you sure to delete this product?"
+                        onConfirm={() => handleDelete(item.id)}
+                        okText="Yes"
+                        cancelText="No"
+                    >
+                        <Button type="danger" style={{ marginLeft: 8 }}>Delete</Button>
+                    </Popconfirm>
+                </span>
+            ),
+        },
     ];
 
     return (
         <div>
             <Input.Search
-                placeholder="Search items"
+                placeholder="Search items by name, category, or vendor"
                 onSearch={handleSearch}
                 style={{ marginBottom: 16 }}
             />
